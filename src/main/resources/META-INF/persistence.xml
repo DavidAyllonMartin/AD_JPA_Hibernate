@@ -5,5 +5,18 @@
              version="3.0">
     <persistence-unit name="default">
 
+        <class>entidades.Categoria</class>
+        <class>entidades.Pieza</class>
+        <class>entidades.Proveedor</class>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/ejercicio61"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
     </persistence-unit>
 </persistence>

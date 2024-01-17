@@ -1,0 +1,41 @@
+Hibernate: create table CATEGORIA (codigo bigint not null, nombre varchar(255), primary key (codigo)) engine=InnoDB
+Hibernate: create table PIEZA (codigo bigint not null, color varchar(255), nombre varchar(255), precio decimal(38,2), primary key (codigo)) engine=InnoDB
+Hibernate: create table PROVEEDOR (codigo_proveedor bigint not null, ciudad_proveedor varchar(255), nombre_proveedor varchar(255), provincia_proveedor varchar(255), telefono_proveedor varchar(255), primary key (codigo_proveedor)) engine=InnoDB
+Hibernate: create table CATEGORIA_SEQ (next_val bigint) engine=InnoDB
+Hibernate: insert into CATEGORIA_SEQ values ( 1 )
+Hibernate: create table PIEZA_SEQ (next_val bigint) engine=InnoDB
+Hibernate: insert into PIEZA_SEQ values ( 1 )
+Hibernate: create table PROVEEDOR_SEQ (next_val bigint) engine=InnoDB
+Hibernate: insert into PROVEEDOR_SEQ values ( 1 )
+
+Hibernate: select next_val as id_val from CATEGORIA_SEQ for update
+Hibernate: update CATEGORIA_SEQ set next_val= ? where next_val=?
+Hibernate: insert into CATEGORIA (nombre, codigo) values (?, ?)
+Hibernate: select next_val as id_val from CATEGORIA_SEQ for update
+Hibernate: update CATEGORIA_SEQ set next_val= ? where next_val=?
+Hibernate: insert into CATEGORIA (nombre, codigo) values (?, ?)
+Hibernate: insert into CATEGORIA (nombre, codigo) values (?, ?)
+Hibernate: select next_val as id_val from PIEZA_SEQ for update
+Hibernate: update PIEZA_SEQ set next_val= ? where next_val=?
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: select next_val as id_val from PIEZA_SEQ for update
+Hibernate: update PIEZA_SEQ set next_val= ? where next_val=?
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: insert into PIEZA (color, nombre, precio, codigo) values (?, ?, ?, ?)
+Hibernate: select next_val as id_val from PROVEEDOR_SEQ for update
+Hibernate: update PROVEEDOR_SEQ set next_val= ? where next_val=?
+Hibernate: insert into PROVEEDOR (ciudad_proveedor, nombre_proveedor, provincia_proveedor, telefono_proveedor, codigo_proveedor) values (?, ?, ?, ?, ?)
+Hibernate: select next_val as id_val from PROVEEDOR_SEQ for update
+Hibernate: update PROVEEDOR_SEQ set next_val= ? where next_val=?
+Hibernate: insert into PROVEEDOR (ciudad_proveedor, nombre_proveedor, provincia_proveedor, telefono_proveedor, codigo_proveedor) values (?, ?, ?, ?, ?)
+Hibernate: insert into PROVEEDOR (ciudad_proveedor, nombre_proveedor, provincia_proveedor, telefono_proveedor, codigo_proveedor) values (?, ?, ?, ?, ?)
+Hibernate: insert into PROVEEDOR (ciudad_proveedor, nombre_proveedor, provincia_proveedor, telefono_proveedor, codigo_proveedor) values (?, ?, ?, ?, ?)
+Proveedor antes de la modificación: Proovedor a mostrar: codigo=1, telefono: 123456789, nombre='Proveedor1', provincia: 'Provincia1', ciudad: 'Ciudad1'
+Hibernate: update PROVEEDOR set ciudad_proveedor=?, nombre_proveedor=?, provincia_proveedor=?, telefono_proveedor=? where codigo_proveedor=?
+Proveedor después de la modificación: Proovedor a mostrar: codigo=1, telefono: 123456789, nombre='Proveedor1', provincia: 'Madrid', ciudad: 'Madrid'
+Proveedor antes de la eliminación: Proovedor a mostrar: codigo=2, telefono: 987654321, nombre='Proveedor2', provincia: 'Provincia2', ciudad: 'Ciudad2'
+Hibernate: delete from PROVEEDOR where codigo_proveedor=?
