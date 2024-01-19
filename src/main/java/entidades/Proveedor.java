@@ -3,9 +3,11 @@ package entidades;
 import excepciones.*;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "PROVEEDOR", schema = "ejercicio61")
-public class Proveedor {
+public class Proveedor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "codigo_proveedor")
@@ -101,9 +103,12 @@ public class Proveedor {
 
     @Override
     public String toString() {
-        return "Proovedor a mostrar: " +
-                "codigo=" + codigo + ", telefono: " + telefono + ", nombre='" + nombre + '\'' +
-                ", provincia: '" + provincia + '\'' +
-                ", ciudad: '" + ciudad + '\'';
+        return "Proveedor{" +
+                "codigo=" + codigo +
+                ", telefono='" + telefono + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", ciudad='" + ciudad + '\'' +
+                '}';
     }
 }

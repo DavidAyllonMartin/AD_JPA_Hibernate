@@ -4,11 +4,12 @@ import excepciones.CodigoIlegalException;
 import excepciones.NombreIlegalException;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "CATEGORIA", schema = "ejercicio61")
-public class Categoria {
+public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long codigo;

@@ -6,11 +6,12 @@ import excepciones.NombreIlegalException;
 import excepciones.PrecioIlegalException;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "PIEZA", schema = "ejercicio61")
-public class Pieza {
+public class Pieza implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long codigo;
@@ -88,8 +89,11 @@ public class Pieza {
 
     @Override
     public String toString() {
-        return "Pieza a mostrar: " + "\n" +
-                "codigo: " + codigo + ", precio: " + precio + ", nombre='" + nombre + '\'' +
-                ", color: '" + color + '\'';
+        return "Pieza{" +
+                "codigo=" + codigo +
+                ", precio=" + precio +
+                ", nombre='" + nombre + '\'' +
+                ", color='" + color + '\'' +
+                '}';
     }
 }
