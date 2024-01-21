@@ -1,6 +1,6 @@
-import entidades.Categoria;
-import entidades.Pieza;
-import entidades.Proveedor;
+import entidades.taller.Categoria;
+import entidades.taller.Pieza;
+import entidades.taller.Proveedor;
 import excepciones.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

@@ -1,10 +1,11 @@
-package empleados;
+package entidades.empleados;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table (name = "regiones", schema = "empleados")
 public class Regiones {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -13,7 +14,7 @@ public class Regiones {
     @Basic
     @Column(name = "nombre_region")
     private String nombreRegion;
-    @OneToMany
+    @OneToMany (mappedBy = "region")
     private List<Paises> paises;
 
     public int getIdRegion() {
@@ -40,24 +41,18 @@ public class Regiones {
         this.paises = paises;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Regiones regiones = (Regiones) o;
-
-        if (idRegion != regiones.idRegion) return false;
-        if (nombreRegion != null ? !nombreRegion.equals(regiones.nombreRegion) : regiones.nombreRegion != null)
-            return false;
-
-        return true;
+    public String showInfo() {
+        return "ID de región: " + this.idRegion + " | " + "Nombre de región: " + this.nombreRegion + "\n";
     }
-
     @Override
-    public int hashCode() {
-        int result = idRegion;
-        result = 31 * result + (nombreRegion != null ? nombreRegion.hashCode() : 0);
-        return result;
+    public String toString() {
+        StringBuilder strb = new StringBuilder(showInfo());
+        for (Paises pais : this.paises){
+            strb.append("\t").append(pais.showInfo());
+            for (Localizaciones localizacion : pais.getLocalizaciones()){
+                strb.append("\t").append("\t").append(localizacion.showInfo());
+            }
+        }
+        return strb.toString();
     }
 }

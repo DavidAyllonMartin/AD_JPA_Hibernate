@@ -1,4 +1,4 @@
-package entidades;
+package entidades.taller;
 
 import excepciones.CodigoIlegalException;
 import excepciones.NombreIlegalException;

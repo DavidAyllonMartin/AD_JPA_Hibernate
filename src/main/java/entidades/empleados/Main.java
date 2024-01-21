@@ -1,4 +1,4 @@
-package empleados;
+package entidades.empleados;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -11,10 +11,12 @@ public class Main {
 
         entityManager.getTransaction().begin();
         Regiones region = entityManager.find(Regiones.class, 1);
+        Paises pais = entityManager.find(Paises.class, "ES");
+        Localizaciones localizacion = entityManager.find(Localizaciones.class, 4000);
 
-        for (Paises pais : region.getPaises()){
-            System.out.println(pais.getNombrePais());
-        }
+        System.out.println(region);
+        System.out.println(pais);
+        System.out.println(localizacion);
 
         entityManager.close();
         entityManagerFactory.close();

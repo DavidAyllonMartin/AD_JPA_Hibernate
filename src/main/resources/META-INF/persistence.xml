@@ -5,9 +5,9 @@
              version="3.0">
     <persistence-unit name="default">
 
-        <class>entidades.Categoria</class>
-        <class>entidades.Pieza</class>
-        <class>entidades.Proveedor</class>
+        <class>entidades.taller.Categoria</class>
+        <class>entidades.taller.Pieza</class>
+        <class>entidades.taller.Proveedor</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
@@ -21,9 +21,9 @@
     </persistence-unit>
 
     <persistence-unit name="empleados">
-        <class>empleados.Localizaciones</class>
-        <class>empleados.Paises</class>
-        <class>empleados.Regiones</class>
+        <class>entidades.empleados.Localizaciones</class>
+        <class>entidades.empleados.Paises</class>
+        <class>entidades.empleados.Regiones</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
