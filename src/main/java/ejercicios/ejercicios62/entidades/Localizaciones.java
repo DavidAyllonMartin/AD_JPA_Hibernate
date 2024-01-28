@@ -1,10 +1,13 @@
-package entidades.empleados;
+package ejercicios.ejercicios62.entidades;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-@Table (name = "localizaciones", schema = "empleados")
-public class Localizaciones {
+@Table (name = "localizaciones")
+@PersistenceUnit (unitName = "empleados")
+public class Localizaciones implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_localizacion")
@@ -74,9 +77,9 @@ public class Localizaciones {
     }
 
     public String showInfo() {
-        return "ID Localización: " + idLocalizacion + " | " +
+        return "ID LocalizaciÃ³n: " + idLocalizacion + " | " +
                 "Direccion: " + direccion + " | " +
-                "Código Postal: " + codigoPostal + " | " +
+                "CÃ³digo Postal: " + codigoPostal + " | " +
                 "Ciudad: " + ciudad + " | " +
                 "Provincia: " + provincia + '\n';
     }

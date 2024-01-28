@@ -1,4 +1,4 @@
-package entidades.taller;
+package ejercicios.ejercicios63.ejercicio632;
 
 import excepciones.CodigoIlegalException;
 import excepciones.ColorIlegalException;
@@ -8,9 +8,10 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name = "PIEZA", schema = "ejercicio61")
+@Table(name = "PIEZA")
 public class Pieza implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,6 +19,12 @@ public class Pieza implements Serializable {
     private BigDecimal precio;
     private String nombre;
     private String color;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
+    private Categoria categoria;
+
+    @OneToMany(mappedBy = "pieza", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Suministra> suministraSet;
 
     public Pieza() {
     }
@@ -75,6 +82,26 @@ public class Pieza implements Serializable {
             throw new ColorIlegalException();
         }
         this.color = color;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<Suministra> getSuministraSet() {
+        return suministraSet;
+    }
+
+    public void setSuministraSet(List<Suministra> suministraSet) {
+        this.suministraSet = suministraSet;
     }
 
     @Override

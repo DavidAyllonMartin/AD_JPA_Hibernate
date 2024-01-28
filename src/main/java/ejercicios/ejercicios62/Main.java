@@ -1,12 +1,15 @@
-package entidades.empleados;
+package ejercicios.ejercicios62;
 
+import ejercicios.ejercicios62.entidades.Localizaciones;
+import ejercicios.ejercicios62.entidades.Paises;
+import ejercicios.ejercicios62.entidades.Regiones;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class Main {
     public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("empleados");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ejercicios62");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();

@@ -1,4 +1,4 @@
-package entidades.taller;
+package ejercicios.ejercicios61.entidades;
 
 import excepciones.CodigoIlegalException;
 import excepciones.NombreIlegalException;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "CATEGORIA", schema = "ejercicio61")
+@Table(name = "CATEGORIA")
 public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

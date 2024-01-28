@@ -1,16 +1,16 @@
-package entidades.taller;
+package ejercicios.ejercicios63.ejercicio632;
 
 import excepciones.*;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "PROVEEDOR", schema = "ejercicio61")
+@Table(name = "PROVEEDOR")
 public class Proveedor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "codigo_proveedor")
     private long codigo;
     @Column(name = "telefono_proveedor")
     private String telefono;
@@ -20,6 +20,9 @@ public class Proveedor implements Serializable {
     private String provincia;
     @Column(name = "ciudad_proveedor")
     private String ciudad;
+
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Suministra> suministraList;
 
     public Proveedor() {
     }
@@ -89,6 +92,14 @@ public class Proveedor implements Serializable {
             throw new CiudadIlegalException();
         }
         this.ciudad = ciudad;
+    }
+
+    public List<Suministra> getSuministraList() {
+        return suministraList;
+    }
+
+    public void setSuministraList(List<Suministra> suministraList) {
+        this.suministraList = suministraList;
     }
 
     @Override

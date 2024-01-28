@@ -1,4 +1,4 @@
-package entidades.empleados;
+package ejercicios.ejercicios62.conversor;
 public class Direccion {
 
     private String direccion;

@@ -1,15 +1,13 @@
-package entidades.empleados;
+package ejercicios.ejercicios62.entidades;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
-@Table (name = "paises", schema = "empleados")
-public class Paises {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table (name = "paises")
+public class Paises implements Serializable {
     @Id
     @Column(name = "id_pais")
     private String idPais;

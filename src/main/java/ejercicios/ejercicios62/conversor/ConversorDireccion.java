@@ -1,4 +1,4 @@
-package entidades.empleados;
+package ejercicios.ejercicios62.conversor;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

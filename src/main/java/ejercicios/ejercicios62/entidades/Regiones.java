@@ -1,12 +1,13 @@
-package entidades.empleados;
+package ejercicios.ejercicios62.entidades;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table (name = "regiones", schema = "empleados")
-public class Regiones {
+@Table (name = "regiones")
+public class Regiones implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_region")

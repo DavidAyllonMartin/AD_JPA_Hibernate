@@ -3,11 +3,14 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-    <persistence-unit name="default">
+    <persistence-unit name="ejercicio61">
 
-        <class>entidades.taller.Categoria</class>
-        <class>entidades.taller.Pieza</class>
-        <class>entidades.taller.Proveedor</class>
+
+        <class>ejercicios.ejercicios61.entidades.Categoria</class>
+        <class>ejercicios.ejercicios61.entidades.Pieza</class>
+        <class>ejercicios.ejercicios61.entidades.Proveedor</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
@@ -20,10 +23,13 @@
 
     </persistence-unit>
 
-    <persistence-unit name="empleados">
-        <class>entidades.empleados.Localizaciones</class>
-        <class>entidades.empleados.Paises</class>
-        <class>entidades.empleados.Regiones</class>
+    <persistence-unit name="ejercicios62">
+
+        <class>ejercicios.ejercicios62.entidades.Localizaciones</class>
+        <class>ejercicios.ejercicios62.entidades.Paises</class>
+        <class>ejercicios.ejercicios62.entidades.Regiones</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
@@ -32,6 +38,88 @@
             <property name="hibernate.connection.password" value="alumno"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
+    </persistence-unit>
+
+    <persistence-unit name="ejercicios631">
+
+        <class>ejercicios.ejercicios63.ejercicio631.Departamentos</class>
+        <class>ejercicios.ejercicios63.ejercicio631.Localizaciones</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/ejercicios631"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
+    </persistence-unit>
+
+    <persistence-unit name="ejercicios632">
+
+        <class>ejercicios.ejercicios63.ejercicio632.Categoria</class>
+        <class>ejercicios.ejercicios63.ejercicio632.Pieza</class>
+        <class>ejercicios.ejercicios63.ejercicio632.Proveedor</class>
+        <class>ejercicios.ejercicios63.ejercicio632.Suministra</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/ejercicios632"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
+    </persistence-unit>
+
+    <persistence-unit name="ejercicios633">
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Films</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.People</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Planets</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Species</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Starships</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Transports</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Vehicles</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/star_wars"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+
+    </persistence-unit>
+
+    <persistence-unit name="ejercicios633_test">
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Films</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.People</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Planets</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Species</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Starships</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Transports</class>
+        <class>ejercicios.ejercicios63.ejercicio633.entidades.Vehicles</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/star_wars_test"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value= "update"/>
         </properties>
 
     </persistence-unit>

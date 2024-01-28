@@ -1,6 +1,8 @@
-import entidades.taller.Categoria;
-import entidades.taller.Pieza;
-import entidades.taller.Proveedor;
+package ejercicios.ejercicios61;
+
+import ejercicios.ejercicios61.entidades.Categoria;
+import ejercicios.ejercicios61.entidades.Pieza;
+import ejercicios.ejercicios61.entidades.Proveedor;
 import excepciones.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -55,7 +57,7 @@ public class Main {
                 System.out.println("Excepción al intentar crear una pieza con datos incorrectos.");
             }
 
-            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ejercicio61");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
 
             for (Categoria categoria : categorias){
