@@ -42,57 +42,81 @@ class StarWarsPeopleDAO_JPATest {
         human.setAverageLifespan("70"); // Asigna la esperanza de vida promedio de los humanos
         human.setClassification("Mammal");
         human.setDesignation("Sentient");
-        human.setEyeColors("Brown, Blue, Green"); // Asigna los colores de ojos típicos de los humanos
-        human.setHairColors("Black, Brown, Blonde"); // Asigna los colores de cabello típicos de los humanos
+        human.setEyeColors("Brown, Blue, Green"); // Asigna los colores de ojos tï¿½picos de los humanos
+        human.setHairColors("Black, Brown, Blonde"); // Asigna los colores de cabello tï¿½picos de los humanos
         human.setHomeworld(1); // Asigna el ID del planeta natal de los humanos (por ejemplo, la Tierra)
         human.setLanguage("Galactic Basic");
         human.setSkinColors("Various"); // Asigna los colores de piel variados de los humanos
-        human.setCreated(new Timestamp(System.currentTimeMillis())); // Establece la fecha de creación actual
-        human.setEdited(new Timestamp(System.currentTimeMillis())); // Establece la fecha de edición actual
+        human.setCreated(new Timestamp(System.currentTimeMillis())); // Establece la fecha de creaciï¿½n actual
+        human.setEdited(new Timestamp(System.currentTimeMillis())); // Establece la fecha de ediciï¿½n actual
 
     }
 
-    private People character1 = new People.Builder()
-            .id(10000)
-            .name("Luke Skywalker")
-            .gender("male")
-            .birthYear("19BBY")
-            .height((short) 172)
-            .mass(77)
-            .hairColor("blond")
-            .skinColor("fair")
-            .eyeColor("blue")
-            .species(human)
-            .homeworld(tatooine)
-            .build();
+    private People character1;
 
-    private People character1Duplicated = new People.Builder()
-            .id(10000)
-            .name("Luke Skywalker")
-            .gender("male")
-            .birthYear("19BBY")
-            .height((short) 172)
-            .mass(77)
-            .hairColor("blond")
-            .skinColor("fair")
-            .eyeColor("blue")
-            .species(human)
-            .homeworld(tatooine)
-            .build();
+    {
+        try {
+            character1 = new People.Builder()
+                    .id(10000)
+                    .name("Luke Skywalker")
+                    .gender("male")
+                    .birthYear("19BBY")
+                    .height((short) 172)
+                    .mass(77)
+                    .hairColor("blond")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .species(human)
+                    .homeworld(tatooine)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    private People character2 = new People.Builder()
-            .id(10001)
-            .name("Anakin Skywalker")
-            .gender("male")
-            .birthYear("41.9BBY")
-            .height((short) 188)
-            .mass(84)
-            .hairColor("blond")
-            .skinColor("fair")
-            .eyeColor("blue")
-            .homeworld(tatooine)
-            .species(human)
-            .build();
+    private People character1Duplicated;
+
+    {
+        try {
+            character1Duplicated = new People.Builder()
+                    .id(10000)
+                    .name("Luke Skywalker")
+                    .gender("male")
+                    .birthYear("19BBY")
+                    .height((short) 172)
+                    .mass(77)
+                    .hairColor("blond")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .species(human)
+                    .homeworld(tatooine)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private People character2;
+
+    {
+        try {
+            character2 = new People.Builder()
+                    .id(10001)
+                    .name("Anakin Skywalker")
+                    .gender("male")
+                    .birthYear("41.9BBY")
+                    .height((short) 188)
+                    .mass(84)
+                    .hairColor("blond")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .homeworld(tatooine)
+                    .species(human)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @BeforeEach
     void setUp(){
@@ -142,19 +166,24 @@ class StarWarsPeopleDAO_JPATest {
     @Test
     void update() throws DataAccessException, DuplicateKeyException, IncompatibleVersionException {
         dao.create(character2);
-        People updatedCharacter = new People.Builder()
-                .id(10001)
-                .name("Anakin Skywalker")
-                .gender("male")
-                .birthYear("41.9BBY")
-                .height((short) 187)
-                .mass(85)
-                .hairColor("black")
-                .skinColor("fair")
-                .eyeColor("blue")
-                .homeworld(tatooine)
-                .species(human)
-                .build();
+        People updatedCharacter = null;
+        try {
+            updatedCharacter = new People.Builder()
+                    .id(10001)
+                    .name("Anakin Skywalker")
+                    .gender("male")
+                    .birthYear("41.9BBY")
+                    .height((short) 187)
+                    .mass(85)
+                    .hairColor("black")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .homeworld(tatooine)
+                    .species(human)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(dao.update(updatedCharacter));
         People readCharacter = null;

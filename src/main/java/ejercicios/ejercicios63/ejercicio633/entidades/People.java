@@ -1,5 +1,6 @@
 package ejercicios.ejercicios63.ejercicio633.entidades;
 
+import ejercicios.ejercicios63.ejercicio633.excepciones.IllegalStarWarsException;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -38,10 +39,10 @@ public class People implements Serializable {
     @Basic
     @Column(name = "eye_color", nullable = true, length = 20)
     private String eyeColor;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "homeworld_id", referencedColumnName = "id")
     private Planets homeworld;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "species_id", referencedColumnName = "id")
     private Species species;
     @Basic
@@ -51,34 +52,34 @@ public class People implements Serializable {
     @Column(name = "edited", nullable = true)
     private Timestamp edited;
 
-    @ManyToMany(mappedBy = "people")
+    @ManyToMany(mappedBy = "pilots", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Starships> starships = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "people")
+    @ManyToMany(mappedBy = "people", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Films> films = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "people")
+    @ManyToMany(mappedBy = "people", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Vehicles> vehicles = new ArrayList<>();
 
     public People() {
     }
-    public People(int id, String name, String gender, String birthYear, short height, double mass, String hairColor, String skinColor, String eyeColor, Planets homeworld, Species species, Timestamp created, Timestamp edited, List<Starships> starships, List<Films> films, List<Vehicles> vehicles) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.birthYear = birthYear;
-        this.height = height;
-        this.mass = mass;
-        this.hairColor = hairColor;
-        this.skinColor = skinColor;
-        this.eyeColor = eyeColor;
-        this.homeworld = homeworld;
-        this.species = species;
-        this.created = created;
-        this.edited = edited;
-        this.starships = starships;
-        this.films = films;
-        this.vehicles = vehicles;
+    public People(int id, String name, String gender, String birthYear, short height, double mass, String hairColor, String skinColor, String eyeColor, Planets homeworld, Species species, Timestamp created, Timestamp edited, List<Starships> starships, List<Films> films, List<Vehicles> vehicles) throws IllegalStarWarsException {
+        setId(id);
+        setName(name);
+        setGender(gender);
+        setBirthYear(birthYear);
+        setHeight(height);
+        setMass(mass);
+        setHairColor(hairColor);
+        setSkinColor(skinColor);
+        setEyeColor(eyeColor);
+        setHomeworld(homeworld);
+        setSpecies(species);
+        setCreated(created);
+        setEdited(edited);
+        setStarships(starships);
+        setFilms(films);
+        setVehicles(vehicles);
     }
 
     public int getId() {
@@ -88,7 +89,6 @@ public class People implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
@@ -96,7 +96,6 @@ public class People implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getGender() {
         return gender;
     }
@@ -104,7 +103,6 @@ public class People implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
     public String getBirthYear() {
         return birthYear;
     }
@@ -112,7 +110,6 @@ public class People implements Serializable {
     public void setBirthYear(String birthYear) {
         this.birthYear = birthYear;
     }
-
     public short getHeight() {
         return height;
     }
@@ -120,7 +117,6 @@ public class People implements Serializable {
     public void setHeight(short height) {
         this.height = height;
     }
-
     public double getMass() {
         return mass;
     }
@@ -128,7 +124,6 @@ public class People implements Serializable {
     public void setMass(double mass) {
         this.mass = mass;
     }
-
     public String getHairColor() {
         return hairColor;
     }
@@ -136,7 +131,6 @@ public class People implements Serializable {
     public void setHairColor(String hairColor) {
         this.hairColor = hairColor;
     }
-
     public String getSkinColor() {
         return skinColor;
     }
@@ -160,7 +154,6 @@ public class People implements Serializable {
     public void setHomeworld(Planets homeworld) {
         this.homeworld = homeworld;
     }
-
     public Species getSpecies() {
         return species;
     }
@@ -168,7 +161,6 @@ public class People implements Serializable {
     public void setSpecies(Species species) {
         this.species = species;
     }
-
     public Timestamp getCreated() {
         return created;
     }
@@ -189,23 +181,46 @@ public class People implements Serializable {
         return starships;
     }
 
-    public void setStarships(List<Starships> starships) {
+    public void setStarships(List<Starships> starships) throws IllegalStarWarsException {
+        if (starships == null) {
+            throw new IllegalStarWarsException("Starships list cannot be null.");
+        }
         this.starships = starships;
     }
 
+    public void addStarship(Starships starship) throws IllegalStarWarsException {
+        if (starship == null) {
+            throw new IllegalStarWarsException("Starship cannot be null.");
+        }
+        this.starships.add(starship);
+        starship.getPilots().add(this);
+    }
     public List<Films> getFilms() {
         return films;
     }
 
-    public void setFilms(List<Films> films) {
+    public void setFilms(List<Films> films) throws IllegalStarWarsException {
+        if (films == null) {
+            throw new IllegalStarWarsException("Films list cannot be null.");
+        }
         this.films = films;
     }
 
+    public void addFilm(Films film) throws IllegalStarWarsException {
+        if (film == null) {
+            throw new IllegalStarWarsException("Film cannot be null.");
+        }
+        this.films.add(film);
+        film.getPeople().add(this);
+    }
     public List<Vehicles> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(List<Vehicles> vehicles) {
+    public void setVehicles(List<Vehicles> vehicles) throws IllegalStarWarsException {
+        if (vehicles == null) {
+            throw new IllegalStarWarsException("Vehicles list cannot be null.");
+        }
         this.vehicles = vehicles;
     }
 
@@ -218,7 +233,7 @@ public class People implements Serializable {
 
         if (id != people.id) return false;
         if (height != people.height) return false;
-        if (Double.compare(people.mass, mass) != 0) return false;
+        if (Double.compare(mass, people.mass) != 0) return false;
         if (!Objects.equals(name, people.name)) return false;
         if (!Objects.equals(gender, people.gender)) return false;
         if (!Objects.equals(birthYear, people.birthYear)) return false;
@@ -256,6 +271,25 @@ public class People implements Serializable {
         result = 31 * result + (films != null ? films.hashCode() : 0);
         result = 31 * result + (vehicles != null ? vehicles.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "People{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthYear='" + birthYear + '\'' +
+                ", height=" + height +
+                ", mass=" + mass +
+                ", hairColor='" + hairColor + '\'' +
+                ", skinColor='" + skinColor + '\'' +
+                ", eyeColor='" + eyeColor + '\'' +
+                ", homeworld=" + homeworld +
+                ", species=" + species +
+                ", created=" + created +
+                ", edited=" + edited +
+                '}';
     }
 
     public static class Builder {
@@ -359,7 +393,7 @@ public class People implements Serializable {
             return this;
         }
 
-        public People build() {
+        public People build() throws IllegalStarWarsException {
             return new People(
                     this.id,
                     this.name,

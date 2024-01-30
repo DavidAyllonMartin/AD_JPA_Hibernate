@@ -48,7 +48,7 @@ public class Planets implements Serializable {
     @Column(name = "edited", nullable = true)
     private Timestamp edited;
 
-    @ManyToMany(mappedBy = "planets")
+    @ManyToMany(mappedBy = "planets", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Films> films = new ArrayList<>();
 
     public int getId() {

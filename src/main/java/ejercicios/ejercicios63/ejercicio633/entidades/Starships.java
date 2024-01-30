@@ -1,5 +1,6 @@
 package ejercicios.ejercicios63.ejercicio633.entidades;
 
+import ejercicios.ejercicios63.ejercicio633.excepciones.IllegalStarWarsException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,15 +23,15 @@ public class Starships {
     @Column(name = "hyperdrive_rating", nullable = true, length = 10)
     private String hyperdriveRating;
 
-    @ManyToMany( cascade = {CascadeType.ALL} )
+    @ManyToMany( cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "starships_pilots",
             joinColumns = {@JoinColumn(name = "starship_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "people_id", referencedColumnName = "id")}
     )
-    private List<People> people = new ArrayList<>();
+    private List<People> pilots = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "starships")
+    @ManyToMany(mappedBy = "starships", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Films> films = new ArrayList<>();
 
 
@@ -66,12 +67,20 @@ public class Starships {
         this.hyperdriveRating = hyperdriveRating;
     }
 
-    public List<People> getPeople() {
-        return people;
+    public List<People> getPilots() {
+        return pilots;
     }
 
-    public void setPeople(List<People> people) {
-        this.people = people;
+    public void setPilots(List<People> people) {
+        this.pilots = people;
+    }
+
+    public void addPilot(People pilot) throws IllegalStarWarsException {
+        if (pilot == null) {
+            throw new IllegalStarWarsException("Pilot cannot be null.");
+        }
+        this.pilots.add(pilot);
+        pilot.getStarships().add(this);
     }
 
     public List<Films> getFilms() {
@@ -95,7 +104,7 @@ public class Starships {
         if (!Objects.equals(mglt, starships.mglt)) return false;
         if (!Objects.equals(hyperdriveRating, starships.hyperdriveRating))
             return false;
-        if (!Objects.equals(people, starships.people)) return false;
+        if (!Objects.equals(pilots, starships.pilots)) return false;
         return Objects.equals(films, starships.films);
     }
 
@@ -105,8 +114,18 @@ public class Starships {
         result = 31 * result + (starshipClass != null ? starshipClass.hashCode() : 0);
         result = 31 * result + (mglt != null ? mglt.hashCode() : 0);
         result = 31 * result + (hyperdriveRating != null ? hyperdriveRating.hashCode() : 0);
-        result = 31 * result + (people != null ? people.hashCode() : 0);
+        result = 31 * result + (pilots != null ? pilots.hashCode() : 0);
         result = 31 * result + (films != null ? films.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Starships{" +
+                "id=" + id +
+                ", starshipClass='" + starshipClass + '\'' +
+                ", mglt='" + mglt + '\'' +
+                ", hyperdriveRating='" + hyperdriveRating + '\'' +
+                '}';
     }
 }
