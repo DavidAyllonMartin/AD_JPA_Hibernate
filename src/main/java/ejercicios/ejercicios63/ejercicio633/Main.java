@@ -5,6 +5,7 @@ import ejercicios.ejercicios63.ejercicio633.entidades.Planets;
 import ejercicios.ejercicios63.ejercicio633.entidades.Species;
 import ejercicios.ejercicios63.ejercicio633.excepciones.DataAccessException;
 import ejercicios.ejercicios63.ejercicio633.excepciones.DuplicateKeyException;
+import ejercicios.ejercicios63.ejercicio633.excepciones.IllegalStarWarsException;
 import ejercicios.ejercicios63.ejercicio633.excepciones.IncompatibleVersionException;
 
 import java.sql.Timestamp;
@@ -48,33 +49,43 @@ public class Main {
 
         }
 
-        People character1 = new People.Builder()
-                .id(10000)
-                .name("Luke Skywalker")
-                .gender("male")
-                .birthYear("19BBY")
-                .height((short) 172)
-                .mass(77)
-                .hairColor("blond")
-                .skinColor("fair")
-                .eyeColor("blue")
-                .species(human)
-                .homeworld(tatooine)
-                .build();
+        People character1 = null;
+        try {
+            character1 = new People.Builder()
+                    .id(10000)
+                    .name("Luke Skywalker")
+                    .gender("male")
+                    .birthYear("19BBY")
+                    .height((short) 172)
+                    .mass(77)
+                    .hairColor("blond")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .species(human)
+                    .homeworld(tatooine)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
 
-        People character2 = new People.Builder()
-                .id(10001)
-                .name("Anakin Skywalker")
-                .gender("male")
-                .birthYear("41.9BBY")
-                .height((short) 188)
-                .mass(84)
-                .hairColor("blond")
-                .skinColor("fair")
-                .eyeColor("blue")
-                .homeworld(tatooine)
-                .species(human)
-                .build();
+        People character2 = null;
+        try {
+            character2 = new People.Builder()
+                    .id(10001)
+                    .name("Anakin Skywalker")
+                    .gender("male")
+                    .birthYear("41.9BBY")
+                    .height((short) 188)
+                    .mass(84)
+                    .hairColor("blond")
+                    .skinColor("fair")
+                    .eyeColor("blue")
+                    .homeworld(tatooine)
+                    .species(human)
+                    .build();
+        } catch (IllegalStarWarsException e) {
+            throw new RuntimeException(e);
+        }
 
         dao.create(character1);
         dao.create(character2);

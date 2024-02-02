@@ -209,4 +209,23 @@ public class Species implements Serializable {
         result = 31 * result + (films != null ? films.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Species{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", averageHeight='" + averageHeight + '\'' +
+                ", averageLifespan='" + averageLifespan + '\'' +
+                ", classification='" + classification + '\'' +
+                ", designation='" + designation + '\'' +
+                ", eyeColors='" + eyeColors + '\'' +
+                ", hairColors='" + hairColors + '\'' +
+                ", homeworld=" + homeworld +
+                ", language='" + language + '\'' +
+                ", skinColors='" + skinColors + '\'' +
+                ", created=" + created +
+                ", edited=" + edited +
+                '}';
+    }
 }

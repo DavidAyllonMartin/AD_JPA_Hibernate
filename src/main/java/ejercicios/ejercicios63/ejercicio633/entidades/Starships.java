@@ -26,8 +26,8 @@ public class Starships {
     @ManyToMany( cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "starships_pilots",
-            joinColumns = {@JoinColumn(name = "starship_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "people_id", referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "starship_id")},
+            inverseJoinColumns = {@JoinColumn(name = "people_id")}
     )
     private List<People> pilots = new ArrayList<>();
 

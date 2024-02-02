@@ -197,4 +197,22 @@ public class Planets implements Serializable {
         result = 31 * result + (films != null ? films.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Planets{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", climate='" + climate + '\'' +
+                ", rotationPeriod=" + rotationPeriod +
+                ", orbitalPeriod=" + orbitalPeriod +
+                ", diameter=" + diameter +
+                ", gravity='" + gravity + '\'' +
+                ", terrain='" + terrain + '\'' +
+                ", surfaceWater='" + surfaceWater + '\'' +
+                ", population=" + population +
+                ", created=" + created +
+                ", edited=" + edited +
+                '}';
+    }
 }
