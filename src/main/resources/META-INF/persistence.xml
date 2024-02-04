@@ -123,4 +123,29 @@
         </properties>
 
     </persistence-unit>
+
+
+
+    <persistence-unit name="nfl">
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.FantasyDraft</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.FantasyTeam</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.FantasyTransactions</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.NflTeam</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.Players</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.StandardValueHistory</class>
+        <class>ejercicios.ejercicios71.ejercicio713.entidades.SuperflexValueHistory</class>
+
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/nfl"/>
+            <property name="hibernate.connection.username" value="admin00"/>
+            <property name="hibernate.connection.password" value="alumno"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value= "update"/>
+        </properties>
+
+    </persistence-unit>
 </persistence>

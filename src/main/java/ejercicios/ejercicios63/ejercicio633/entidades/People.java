@@ -39,10 +39,10 @@ public class People implements Serializable {
     @Basic
     @Column(name = "eye_color", nullable = true, length = 20)
     private String eyeColor;
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "homeworld_id", referencedColumnName = "id")
     private Planets homeworld;
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "species_id", referencedColumnName = "id")
     private Species species;
     @Basic
