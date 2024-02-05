@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "fantasy_transactions", schema = "nfl")
@@ -19,7 +20,7 @@ public class FantasyTransactions implements Serializable {
     private TransactionType transactionType;
     @Basic
     @Column(name = "transaction_date", nullable = false)
-    private Date transactionDate;
+    private LocalDateTime transactionDate;
     @ManyToOne
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Players player;
@@ -30,7 +31,7 @@ public class FantasyTransactions implements Serializable {
     @JoinColumn(name = "destination_team_id", referencedColumnName = "id")
     private FantasyTeam destinationTeam;
 
-    public FantasyTransactions(TransactionType transactionType, Date transactionDate, Players player, FantasyTeam sourceTeam, FantasyTeam destinationTeam) {
+    public FantasyTransactions(TransactionType transactionType, LocalDateTime transactionDate, Players player, FantasyTeam sourceTeam, FantasyTeam destinationTeam) {
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
         this.player = player;
@@ -58,11 +59,11 @@ public class FantasyTransactions implements Serializable {
         this.transactionType = transactionType;
     }
 
-    public Date getTransactionDate() {
+    public LocalDateTime getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -125,7 +126,7 @@ public class FantasyTransactions implements Serializable {
         this.destinationTeam = destinationTeam;
     }
 
-    public static FantasyTransactions tradeAdd(EntityManager entityManager, String playerName, String sourceTeamName, String destinationTeamName, Date date){
+    public static FantasyTransactions tradeAdd(EntityManager entityManager, String playerName, String sourceTeamName, String destinationTeamName, LocalDateTime date){
         TypedQuery<Players> selectPlayer = entityManager.createQuery("SELECT player FROM Players as player WHERE player.playerName = :player", Players.class);
         selectPlayer.setParameter("player", playerName);
         Players player = selectPlayer.getSingleResult();
@@ -141,7 +142,7 @@ public class FantasyTransactions implements Serializable {
         return trade;
     }
 
-    public static FantasyTransactions freeAgencyAdd(EntityManager entityManager, String playerName, String sourceTeamName, Date date){
+    public static FantasyTransactions freeAgencyAdd(EntityManager entityManager, String playerName, String sourceTeamName, LocalDateTime date){
         TypedQuery<Players> selectPlayer = entityManager.createQuery("SELECT player FROM Players as player WHERE player.playerName = :player", Players.class);
         selectPlayer.setParameter("player", playerName);
         Players player = selectPlayer.getSingleResult();
@@ -154,7 +155,7 @@ public class FantasyTransactions implements Serializable {
         return add;
     }
 
-    public static FantasyTransactions freeAgencyDrop(EntityManager entityManager, String playerName, Date date){
+    public static FantasyTransactions freeAgencyDrop(EntityManager entityManager, String playerName, LocalDateTime date){
         TypedQuery<Players> selectPlayer = entityManager.createQuery("SELECT player FROM Players as player WHERE player.playerName = :player", Players.class);
         selectPlayer.setParameter("player", playerName);
         Players player = selectPlayer.getSingleResult();

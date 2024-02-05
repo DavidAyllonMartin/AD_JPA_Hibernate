@@ -65,6 +65,7 @@ CREATE TABLE superflex_value_history (
 	CONSTRAINT superflex_value_history_fk1 FOREIGN KEY (player_id) REFERENCES players(id)
 
 );
+
 CREATE TABLE fantasy_draft (
 	id INT AUTO_INCREMENT,
 	player_id INT NOT NULL,
@@ -91,14 +92,13 @@ END;
 $$
 DELIMITER ;
 
-
 CREATE TABLE fantasy_transactions (
     id INT AUTO_INCREMENT,
     player_id INT,
     fantasy_team_id INT,
     transaction_type ENUM('add', 'drop', 'trade') NOT NULL,
     destination_team_id INT,
-    transaction_date DATE NOT NULL,
+    transaction_date DATETIME NOT NULL,
     CONSTRAINT fantasy_transactions_pk PRIMARY KEY (id),
     CONSTRAINT fantasy_transactions_fk1 FOREIGN KEY (player_id) REFERENCES players (id),
     CONSTRAINT fantasy_transactions_fk2 FOREIGN KEY (fantasy_team_id) REFERENCES fantasy_team (id),

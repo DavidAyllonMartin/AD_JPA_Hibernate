@@ -9,7 +9,7 @@ INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (7, "Madrid Rexilons
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (8, "Atletico de David", "David Ayllón"
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (9, "Santa Eugenia Reapers", "David Ros
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (10, "Vir Saints", "Virginia");
-INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (11, "Mexican Vikings", "Chalo");
+INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (11, "MexicanVikings", "Chalo");
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (12, "Help me Obi-Quon", "Álex");
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (13, "Rhapsody Dragons", "Juan Enrique"
 INSERT INTO fantasy_team (id, team_name, owner_name) VALUES (14, "Alcorcon Raiders", "Víctor");
