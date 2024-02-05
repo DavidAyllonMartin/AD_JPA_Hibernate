@@ -143,7 +143,7 @@
             <property name="hibernate.connection.url" value="jdbc:mysql://192.168.56.101:3306/nfl"/>
             <property name="hibernate.connection.username" value="admin00"/>
             <property name="hibernate.connection.password" value="alumno"/>
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.hbm2ddl.auto" value= "update"/>
         </properties>
 
