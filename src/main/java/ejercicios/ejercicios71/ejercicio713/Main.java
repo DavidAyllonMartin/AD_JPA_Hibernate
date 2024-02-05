@@ -1,18 +1,13 @@
 package ejercicios.ejercicios71.ejercicio713;
 
-import ejercicios.ejercicios71.ejercicio713.entidades.FantasyDraft;
 import ejercicios.ejercicios71.ejercicio713.entidades.FantasyTransactions;
-import ejercicios.ejercicios71.ejercicio713.entidades.Players;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +21,7 @@ public class Main {
         List<String[]> transactions = new ArrayList<>();
 
         for (String s : stringList){
-            List<String[]> list = TransactionParser.parseHTMLTable(s);
+            List<String[]> list = NFLParser.parseTransactionsFromHTML(s);
             transactions.addAll(list);
         }
 
