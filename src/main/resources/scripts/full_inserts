@@ -517,6 +517,7 @@ INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, hei
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (223, 'O.J. Howard', 'oj-howard-223', 'TE', NULL, 0, 28.8, 6, 6, 251, 6, 1, 1, 88, '1994-11-19', 2017, 'Alabama');
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (2, 'Taywan Taylor', 'taywan-taylor-2', 'WR', NULL, 0, 28.0, 5, 11, 203, 6, 3, 3, 13, '1995-03-02', 2017, 'Western Kentucky');
 
+-- DST
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (10000, 'San Francisco 49ers', NULL, 'DST', 28, 0, 0.0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (10001, 'Dallas Cowboys', NULL, 'DST', 9, 0, 0.0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (10002, 'Philadelphia Eagles', NULL, 'DST', 26, 0, 0.0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
@@ -550,6 +551,7 @@ INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, hei
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (10030, 'Houston Texans', NULL, 'DST', 13, 0, 0.0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
 INSERT INTO players (id, player_name, slug, position, nfl_team, rookie, age, height_feet, height_inches, weight, seasons_experience, pick_round, pick_num, player_number, birthday, draft_year, college) VALUES (10031, 'Las Vegas Raiders', NULL, 'DST', 25, 0, 0.0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
 
+-- K
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10032, "Brandon Aubrey", 'K', 9);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10033, "Cameron Dicker", 'K', 17);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10034, "Jake Elliott", 'K', 26);
@@ -612,6 +614,8 @@ INSERT INTO players (id, player_name, position, nfl_team) VALUES (10090, "Parker
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10091, "Trey Wolff", 'K', null);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10092, "Cade York", 'K', 23);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10093, "Matthew Wright", 'K', 5);
+
+-- DL
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10094, "Maxx Crosby", 'DL', 25);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10095, "Aidan Hutchinson", 'DL', 11);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10096, "Trey Hendrickson", 'DL', 7);
@@ -1007,6 +1011,8 @@ INSERT INTO players (id, player_name, position, nfl_team) VALUES (10485, "Jamal 
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10486, "Renell Wren", 'DL', 27);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10487, "Justin Zimmer", 'DL', null);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10488, "Jabari Zuniga", 'DL', null);
+
+-- LB
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10489, "T.J. Watt", 'LB', 27);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10490, "Khalil Mack", 'LB', 17);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10491, "Foye Oluokun", 'LB', 15);
@@ -1325,6 +1331,8 @@ INSERT INTO players (id, player_name, position, nfl_team) VALUES (10803, "Derrek
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10804, "Luiji Vilain", 'LB', 5);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10805, "Drew White", 'LB', null);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10806, "Ray Wilborn", 'LB', null);
+
+-- DB
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10807, "Antoine Winfield Jr.", 'DB', 30);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10808, "Keisean Nixon", 'DB', 12);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (10809, "Jessie Bates", 'DB', 2);
@@ -1785,6 +1793,8 @@ INSERT INTO players (id, player_name, position, nfl_team) VALUES (11263, "Brando
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (11264, "Jaiden Woodbey", 'DB', null);
 INSERT INTO players (id, player_name, position, nfl_team) VALUES (11265, "Tevaughn Campbell", 'DB', 15);
 
+
+-- Fantasy Draft
 -- DELETE from fantasy_draft;
 -- Si quiero que el trigger sirva para algo hay que referenciar el jugador con su clave primaria sin hacer un select de él mismo
 DROP TRIGGER IF EXISTS update_after_fantasy_draft;
@@ -2174,7 +2184,7 @@ INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "DeVonta Smith"), 16, 2023, CEIL(115 / 16), (115 / 16) + 1, 115, TRUE);
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Jaylen Waddle"), 16, 2023, CEIL(142 / 16), (142 / 16) + 1, 142, TRUE);
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Jalen Hurts"), 16, 2023, CEIL(147 / 16), (147 / 16) + 1, 147, TRUE);
-INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Odell Beckham"), 16, 2023, CEIL(174 / 16), (174 / 16) + 1, 174, FALSE);
+INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Odell Beckham Jr."), 16, 2023, CEIL(174 / 16), (174 / 16) + 1, 174, FALSE);
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Miami Dolphins"), 16, 2023, CEIL(179 / 16), (179 / 16) + 1, 179, FALSE);
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Harrison Butker"), 16, 2023, CEIL(206 / 16), (206 / 16) + 1, 206, FALSE);
 INSERT INTO fantasy_draft (player_id, fantasy_team, draft_year, pick_round, pick_num, pick_overall, keeper) VALUES ((SELECT id FROM players WHERE player_name = "Josey Jewell"), 16, 2023, CEIL(211 / 16), (211 / 16) + 1, 211, FALSE);

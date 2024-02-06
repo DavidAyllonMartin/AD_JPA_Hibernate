@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -174,19 +176,25 @@ public class NFLParser {
     }
 
     public static String formatHour(String hour12) {
-        String amPmIndicator = hour12.substring(hour12.length() - 2);
-        String hhmm = hour12.substring(0, hour12.length() - 2);
-        LocalTime time = LocalTime.parse(hhmm, DateTimeFormatter.ofPattern("hh:mm"));
+        Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{2})(am|pm)");
+        Matcher matcher = pattern.matcher(hour12);
 
-        if (amPmIndicator.equalsIgnoreCase("pm") && time.getHour() != 12) {
-            time = time.plusHours(12);
-        } else if (amPmIndicator.equalsIgnoreCase("am") && time.getHour() == 12) {
-            time = time.minusHours(12);
+        if (matcher.matches()) {
+            int hour = Integer.parseInt(matcher.group(1));
+            int minute = Integer.parseInt(matcher.group(2));
+            String amPmIndicator = matcher.group(3);
+
+            if (amPmIndicator.equalsIgnoreCase("pm") && hour != 12) {
+                hour += 12;
+            } else if (amPmIndicator.equalsIgnoreCase("am") && hour == 12) {
+                hour = 0;
+            }
+
+            return LocalTime.of(hour, minute).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        } else {
+            throw new IllegalArgumentException("Invalid hour format: " + hour12);
         }
-
-        return time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
-
     public static String parseTeam(String team) {
         Integer number = TEAM_MAP.get(team);
         if (number != null) {
@@ -227,10 +235,12 @@ public class NFLParser {
         }
     }
     public static void main(String[] args) throws IOException {
-        writeInserts(Path.of("src/main/resources/scripts/k"), Path.of("src/main/resources/scripts/inserts"));
+        /*writeInserts(Path.of("src/main/resources/scripts/k"), Path.of("src/main/resources/scripts/inserts"));
         writeInserts(Path.of("src/main/resources/scripts/dl"), Path.of("src/main/resources/scripts/inserts"));
         writeInserts(Path.of("src/main/resources/scripts/lb"), Path.of("src/main/resources/scripts/inserts"));
         writeInserts(Path.of("src/main/resources/scripts/db"), Path.of("src/main/resources/scripts/inserts"));
+    */
+        System.out.println(formatHour("11:09pm"));
     }
 }
 

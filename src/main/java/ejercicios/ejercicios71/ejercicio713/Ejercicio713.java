@@ -17,12 +17,10 @@ public class Ejercicio713 {
 
         entityManager.getTransaction().begin();
 
-        //List<Players> players = playersFilteredByRoundAndCollege(entityManager, 1, "Alabama");
-        //List<Players> players = playersFilteredByFantasyTeam(entityManager, "Atletico de David");
-        //List<Players> players = playersDraftedByFantasyTeam(entityManager, "Atletico de David");
-        //List<FantasyTransactions> players = getTransactionOrderByDate(entityManager, TransactionType.add);
-
-        //players.forEach(System.out::println);
+        playersFilteredByRoundAndCollege(entityManager, 1, "Alabama").forEach(System.out::println);
+        playersFilteredByFantasyTeam(entityManager, "Atletico de David").forEach(System.out::println);
+        playersDraftedByFantasyTeam(entityManager, "Atletico de David").forEach(System.out::println);
+        getTransactionOrderByDate(entityManager, TransactionType.add).forEach(System.out::println);
 
         System.out.println(numberOfTransactionsMadeForFantasyTeam(entityManager, "Allen or Nothing"));
 

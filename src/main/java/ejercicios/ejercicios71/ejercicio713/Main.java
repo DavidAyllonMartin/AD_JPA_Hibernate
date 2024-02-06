@@ -16,7 +16,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        List<String> stringList = Files.readAllLines(Path.of("src/main/resources/scripts/adds"));
+        List<String> stringList = Files.readAllLines(Path.of("src/main/resources/scripts/source_code/adds"));
 
         List<String[]> transactions = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class Main {
 
         //transactionsList.forEach(entityManager::persist);
 
-        errors.forEach(array -> Arrays.asList(array).forEach(System.out::println));
+        errors.forEach(array -> System.out.println(array[3]));
 
 
         entityManager.getTransaction().commit();
