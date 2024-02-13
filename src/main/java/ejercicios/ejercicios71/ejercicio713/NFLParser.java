@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -240,7 +241,7 @@ public class NFLParser {
         writeInserts(Path.of("src/main/resources/scripts/lb"), Path.of("src/main/resources/scripts/inserts"));
         writeInserts(Path.of("src/main/resources/scripts/db"), Path.of("src/main/resources/scripts/inserts"));
     */
-        System.out.println(formatHour("11:09pm"));
+        System.out.println(Date.valueOf("2003/12/12"));
     }
 }
 

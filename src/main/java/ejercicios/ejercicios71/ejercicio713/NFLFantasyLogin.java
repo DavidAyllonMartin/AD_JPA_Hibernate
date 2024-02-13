@@ -14,21 +14,15 @@ public class NFLFantasyLogin {
 
     public static void main(String[] args) {
         try {
-            // Configurar el gestor de cookies global
             CookieHandler.setDefault(new CookieManager());
 
-            // URL de la página de inicio de sesión
             String loginUrl = "https://fantasy.nfl.com/account/sign-in";
 
-            // Datos de inicio de sesión
-            String username = "davidayllonmartin@gmail.com";
-            String password = "QrxzmG6EnaQiadwjBYH@";
+            String username = "";
+            String password = "";
 
-            // Establecer la conexión y realizar el inicio de sesión
             login(loginUrl, username, password);
 
-            // Ahora puedes realizar solicitudes a otras páginas autenticadas.
-            // Ejemplo:
             String dataUrl = "https://fantasy.nfl.com/league/54538/transactions?transactionType=drop";
             String responseData = fetchData(dataUrl);
             Files.write(Path.of("src/main/resources/scripts/html"), responseData.getBytes());
@@ -40,7 +34,7 @@ public class NFLFantasyLogin {
     }
 
     private static void login(String loginUrl, String username, String password) throws Exception {
-        // Establecer la conexión
+
         URL url = new URL(loginUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
