@@ -1,0 +1,4 @@
+INSERT INTO fantasy_transactions (player_id, transaction_type, week, source_team, destination_team, transaction_date) VALUES (2569573, 'trade', 1, 15, 1, '2023-09-08T07:50:00');
+INSERT INTO fantasy_transactions (player_id, transaction_type, week, source_team, destination_team, transaction_date) VALUES (2563803, 'trade', 1, 1, 15, '2023-09-08T07:50:00');
+INSERT INTO fantasy_transactions (player_id, transaction_type, week, source_team, destination_team, transaction_date) VALUES (100024, 'trade', 1, 15, 4, '2023-09-06T00:14:00');
+INSERT INTO fantasy_transactions (player_id, transaction_type, week, source_team, destination_team, transaction_date) VALUES (100014, 'trade', 1, 4, 15, '2023-09-06T00:14:00');

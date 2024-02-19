@@ -6,10 +6,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -25,10 +25,11 @@ import java.util.stream.Stream;
 public class NFLParser {
     private static final Map<String, String> MONTH_MAP = new HashMap<>();
     private static final Map<String, Integer> TEAM_MAP = new HashMap<>();
+    private static final Map<String, Integer> FANTASY_TEAM_MAP = new HashMap<>();
+
     private static final String TRANSACTION_TABLE_CLASS = ".tableType-transaction";
     private static final String PLAYER_TABLE_CLASS = ".tableType-player";
     private static final int TRANSACTION_YEAR = 2023;
-    private static int playerId = 10032;
 
     static {
         MONTH_MAP.put("JAN", "01");
@@ -76,10 +77,29 @@ public class NFLParser {
         TEAM_MAP.put("TB", 30);
         TEAM_MAP.put("TEN", 31);
         TEAM_MAP.put("WAS", 32);
+
+        FANTASY_TEAM_MAP.put("Free Agents", 0);
+        FANTASY_TEAM_MAP.put("Waivers", 0);
+        FANTASY_TEAM_MAP.put("Villalba Rams", 1);
+        FANTASY_TEAM_MAP.put("Catacronk NFL", 2);
+        FANTASY_TEAM_MAP.put("Templars Colonia Garden", 3);
+        FANTASY_TEAM_MAP.put("Allen or Nothing", 4);
+        FANTASY_TEAM_MAP.put("Aluche Minions", 5);
+        FANTASY_TEAM_MAP.put("The Stampede", 6);
+        FANTASY_TEAM_MAP.put("Madrid Rexilons", 7);
+        FANTASY_TEAM_MAP.put("Atletico de David", 8);
+        FANTASY_TEAM_MAP.put("Santa Eugenia Reapers", 9);
+        FANTASY_TEAM_MAP.put("Vir Saints", 10);
+        FANTASY_TEAM_MAP.put("MexicanVikings", 11);
+        FANTASY_TEAM_MAP.put("Help me Obi-Quon", 12);
+        FANTASY_TEAM_MAP.put("Rhapsody Dragons", 13);
+        FANTASY_TEAM_MAP.put("Alcorcon Raiders", 14);
+        FANTASY_TEAM_MAP.put("Vallekas Cats", 15);
+        FANTASY_TEAM_MAP.put("LSI", 16);
     }
 
-    public static List<String[]> parseTransactionsFromHTML(String html) {
-        List<String[]> transactionsList = new ArrayList<>();
+    public static List<Transaction> parseTransactionsFromHTML(String html) {
+        List<Transaction> transactionsList = new ArrayList<>();
 
         Document document = Jsoup.parse(html);
         Element table = document.selectFirst(TRANSACTION_TABLE_CLASS);
@@ -91,8 +111,8 @@ public class NFLParser {
                 Elements columns = row.select("td");
 
                 if (columns.size() == 7) {
-                    String[] transactionData = extractTransactionData(columns);
-                    transactionsList.add(transactionData);
+                    Transaction transaction = extractTransactionData(columns);
+                    transactionsList.add(transaction);
                 }
             }
         }
@@ -100,27 +120,36 @@ public class NFLParser {
         return transactionsList;
     }
 
-    private static String[] extractTransactionData(Elements columns) {
-        String[] transactionData = new String[7];
-        transactionData[0] = formatDate(columns.get(0).text());  // Date
-        transactionData[1] = columns.get(1).text();  // Week
-        transactionData[2] = columns.get(2).text();  // Type
 
-        Element playerNameElement = columns.get(3).selectFirst(".playerCard");
-        if (playerNameElement != null) {
-            transactionData[3] = playerNameElement.text();  // Player Name
+    private static Transaction extractTransactionData(Elements columns) {
+        Transaction transaction = new Transaction();
+        String date = formatDate(columns.get(0).text());
+        String week = columns.get(1).text();
+        String type = columns.get(2).text().toLowerCase();
+        String from = columns.get(4).text();
+        String to = columns.get(5).text();
+
+        String id = null;
+        String attributes = columns.get(3).selectFirst(".playerCard").attributes().toString();
+        String playerIdRegex = "playerNameId-(\\d+)";
+        Pattern pattern = Pattern.compile(playerIdRegex);
+        Matcher matcher = pattern.matcher(attributes);
+        if (matcher.find()) {
+            id = matcher.group(1);
         }
 
-        transactionData[4] = columns.get(4).text();  // From
-        transactionData[5] = columns.get(5).text();  // To
-        transactionData[6] = columns.get(6).text();  // By
+        transaction.setDate(date);
+        transaction.setWeek(Integer.parseInt(week));
+        transaction.setType(type);
+        transaction.setFrom(FANTASY_TEAM_MAP.get(from));
+        transaction.setTo(FANTASY_TEAM_MAP.get(to));
+        transaction.setPlayer(Integer.parseInt(id));
 
-        return transactionData;
+        return transaction;
     }
 
-    public static List<String[]> parsePlayersFromHTML(String html) {
-        List<String[]> transactionsList = new ArrayList<>();
-
+    public static List<OffensivePlayerWeeklyStats> parseOffensivePlayersFromHTML(String html) {
+        List<OffensivePlayerWeeklyStats> transactionsList = new ArrayList<>();
         Document document = Jsoup.parse(html);
         Element table = document.selectFirst(PLAYER_TABLE_CLASS);
 
@@ -130,29 +159,180 @@ public class NFLParser {
             for (Element row : rows) {
                 Elements columns = row.select("td");
 
-                String[] playerData = extractPlayerData(columns);
-                transactionsList.add(playerData);
+                OffensivePlayerWeeklyStats offensivePlayer = extractOffensivePlayerData(columns);
+                transactionsList.add(offensivePlayer);
             }
         }
 
         return transactionsList;
     }
 
-    private static String[] extractPlayerData(Elements columns) {
-        String[] playerData = new String[3];
+    public static List<DefensivePlayerWeeklyStats> parseDefensivePlayersFromHTML(String html) {
+        List<DefensivePlayerWeeklyStats> transactionsList = new ArrayList<>();
+        Document document = Jsoup.parse(html);
+        Element table = document.selectFirst(PLAYER_TABLE_CLASS);
+
+        if (table != null) {
+            Elements rows = table.select("tbody tr");
+
+            for (Element row : rows) {
+                Elements columns = row.select("td");
+
+                DefensivePlayerWeeklyStats defensivePlayer = extractDefensivePlayerData(columns);
+                transactionsList.add(defensivePlayer);
+            }
+        }
+
+        return transactionsList;
+    }
+
+    private static OffensivePlayerWeeklyStats extractOffensivePlayerData(Elements columns) {
+        OffensivePlayerWeeklyStats player = new OffensivePlayerWeeklyStats();
 
         Elements playerInfo = columns.get(1).getAllElements().get(0).getAllElements();
         String positionTeam = playerInfo.get(4).text();
         String[] strings = positionTeam.split("-");
-        playerData[1] = strings[0].trim(); // Position
+        player.setPosition(strings[0].trim());
 
         if (strings.length == 2) {
-            playerData[2] = strings[1].trim(); // Team
+            player.setNflTeam(strings[1].trim());
         }
 
-        playerData[0] = playerInfo.get(1).selectFirst(".playerCard").text().trim(); // Name
+        player.setPlayerName(playerInfo.get(1).selectFirst(".playerCard").text().trim());
 
-        return playerData;
+        // Extraer la ID del jugador del atributo "class"
+        String classAttribute = playerInfo.get(0).parent().className();
+        String playerIdRegex = "player-(\\d+)";
+        Pattern pattern = Pattern.compile(playerIdRegex);
+        Matcher matcher = pattern.matcher(classAttribute);
+        if (matcher.find()) {
+            String id = matcher.group(1);
+            player.setId(Integer.parseInt(id));
+        }
+        String opponent = columns.get(2).selectFirst(".playerOpponent").text().trim().replaceAll("@", "");
+
+        player.setOpponent(parseTeam(opponent));
+
+        player.setCompletions(getIntValue(columns.get(4).text()));
+        player.setIncompletePasses(getIntValue(columns.get(5).text()));
+        player.setPassingYards(getIntValue(columns.get(6).text()));
+        player.setPassingTouchdowns(getIntValue(columns.get(7).text()));
+        player.setInterceptions(getIntValue(columns.get(8).text()));
+        player.setTimesSacked(getIntValue(columns.get(9).text()));
+        player.setRushYards(getIntValue(columns.get(10).text()));
+        player.setRushTouchdowns(getIntValue(columns.get(11).text()));
+        player.setReceptions(getIntValue(columns.get(12).text()));
+        player.setReceivingYards(getIntValue(columns.get(13).text()));
+        player.setReceivingTouchdowns(getIntValue(columns.get(14).text()));
+        player.setReturnYards(getIntValue(columns.get(15).text()));
+        player.setReturnTouchdowns(getIntValue(columns.get(16).text()));
+        player.setFumbleReturnTouchdowns(getIntValue(columns.get(17).text()));
+        player.setTwoPointConversions(getIntValue(columns.get(18).text()));
+        player.setFumblesLost(getIntValue(columns.get(19).text()));
+        player.setFantasyPoints(new BigDecimal(columns.get(20).text()));
+
+        String seasonWeek = columns.get(20).getAllElements().get(1).attributes().get("class");
+
+        String weekRegex = "Week-(\\d+)";
+        Pattern weekPattern = Pattern.compile(weekRegex);
+        Matcher weekMatcher = weekPattern.matcher(seasonWeek);
+        if (weekMatcher.find()) {
+            String week = weekMatcher.group(1);
+            player.setWeek(Integer.parseInt(week));
+        }
+
+        String seasonRegex = "Season-(\\d+)";
+        Pattern seasonPattern = Pattern.compile(seasonRegex);
+        Matcher seasonMatcher = seasonPattern.matcher(seasonWeek);
+        if (seasonMatcher.find()) {
+            String season = seasonMatcher.group(1);
+            player.setSeason(Integer.parseInt(season));
+        }
+
+        return player;
+    }
+    private static DefensivePlayerWeeklyStats extractDefensivePlayerData(Elements columns) {
+        DefensivePlayerWeeklyStats player = new DefensivePlayerWeeklyStats();
+
+        Elements playerInfo = columns.get(1).getAllElements().get(0).getAllElements();
+        String positionTeam = playerInfo.get(4).text();
+        String[] strings = positionTeam.split("-");
+        player.setPosition(strings[0].trim());
+
+        if (strings.length == 2) {
+            player.setNflTeam(strings[1].trim());
+        }
+
+        player.setPlayerName(playerInfo.get(1).selectFirst(".playerCard").text().trim());
+
+        // Extraer la ID del jugador del atributo "class"
+        String classAttribute = playerInfo.get(0).parent().className();
+        String playerIdRegex = "player-(\\d+)";
+        Pattern pattern = Pattern.compile(playerIdRegex);
+        Matcher matcher = pattern.matcher(classAttribute);
+        if (matcher.find()) {
+            String id = matcher.group(1);
+            player.setId(Integer.parseInt(id));
+        }
+        String opponent = columns.get(2).selectFirst(".playerOpponent").text().trim().replaceAll("@", "");
+
+        player.setOpponent(parseTeam(opponent));
+
+        player.setTotalTackles(getIntValue(columns.get(4).text()));
+        player.setAssistedTackles(getIntValue(columns.get(5).text()));
+        try {
+            player.setSacks(new BigDecimal(columns.get(6).text()));
+        }catch (NumberFormatException e){
+            player.setSacks(new BigDecimal(0));
+        }
+        player.setTacklesForLoss(getIntValue(columns.get(7).text()));
+        try {
+            player.setSackYards(new BigDecimal(columns.get(8).text()));
+        }catch (NumberFormatException e){
+            player.setSackYards(new BigDecimal(0));
+        }
+        player.setInterceptions(getIntValue(columns.get(9).text()));
+        player.setForcedFumbles(getIntValue(columns.get(10).text()));
+        player.setFumblesRecovered(getIntValue(columns.get(11).text()));
+        player.setInterceptionsTouchdown(getIntValue(columns.get(12).text()));
+        player.setFumblesTouchdown(getIntValue(columns.get(13).text()));
+        player.setBlockedKickTouchdowns(getIntValue(columns.get(14).text()));
+        player.setSafeties(getIntValue(columns.get(15).text()));
+        player.setBlockedKicks(getIntValue(columns.get(16).text()));
+        player.setPassDeflections(getIntValue(columns.get(17).text()));
+        player.setQuarterbackHits(getIntValue(columns.get(18).text()));
+        player.setInterceptionReturnYards(getIntValue(columns.get(19).text()));
+        player.setFumbleReturnYards(getIntValue(columns.get(20).text()));
+        player.setFantasyPoints(new BigDecimal(columns.get(21).text()));
+
+        String seasonWeek = columns.get(21).getAllElements().get(1).attributes().get("class");
+
+        String weekRegex = "Week-(\\d+)";
+        Pattern weekPattern = Pattern.compile(weekRegex);
+        Matcher weekMatcher = weekPattern.matcher(seasonWeek);
+        if (weekMatcher.find()) {
+            String week = weekMatcher.group(1);
+            player.setWeek(Integer.parseInt(week));
+        }
+
+        String seasonRegex = "Season-(\\d+)";
+        Pattern seasonPattern = Pattern.compile(seasonRegex);
+        Matcher seasonMatcher = seasonPattern.matcher(seasonWeek);
+        if (seasonMatcher.find()) {
+            String season = seasonMatcher.group(1);
+            player.setSeason(Integer.parseInt(season));
+        }
+
+        return player;
+    }
+
+
+    private static int getIntValue(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private static String formatDate(String originalDate) {
@@ -196,52 +376,58 @@ public class NFLParser {
             throw new IllegalArgumentException("Invalid hour format: " + hour12);
         }
     }
-    public static String parseTeam(String team) {
+    public static int parseTeam(String team) {
         Integer number = TEAM_MAP.get(team);
         if (number != null) {
-            return number.toString();
+            return number;
         } else {
-            return "Equipo no encontrado";
+            return 0;
         }
     }
 
-    public static String buildInsertStatement(String[] playerInfo) {
-        if (playerInfo == null || playerInfo.length != 3) {
-            throw new IllegalArgumentException("El array de información del jugador debe contener exactamente 3 elementos.");
-        }
-
-        String playerName = playerInfo[0];
-        String position = playerInfo[1];
-        String nflTeam = playerInfo[2];
-        if (nflTeam != null) {
-            nflTeam = parseTeam(nflTeam);
-        }
-
-        return String.format("INSERT INTO players (id, player_name, position, nfl_team) VALUES (%d, \"%s\", '%s', %s);", playerId++, playerName, position, nflTeam);
-    }
-
-    private static void writeInserts(Path source, Path destination) {
+    public static void writeOffensivePlayersInserts(Path source, Path destination) {
         try (Stream<String> lines = Files.lines(source)) {
-            List<String[]> playerList = lines
-                    .flatMap(line -> parsePlayersFromHTML(line).stream())
+            List<OffensivePlayerWeeklyStats> playerList = lines
+                    .flatMap(line -> parseOffensivePlayersFromHTML(line).stream())
                     .collect(Collectors.toList());
 
-            List<String> insertStatements = playerList.stream()
-                    .map(NFLParser::buildInsertStatement)
-                    .collect(Collectors.toList());
+            List<String> insertStatements = new ArrayList<>();
+            playerList.forEach(p -> insertStatements.add(p.buildMySQLInsert()));
 
             Files.write(destination, insertStatements, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void main(String[] args) throws IOException {
-        /*writeInserts(Path.of("src/main/resources/scripts/k"), Path.of("src/main/resources/scripts/inserts"));
-        writeInserts(Path.of("src/main/resources/scripts/dl"), Path.of("src/main/resources/scripts/inserts"));
-        writeInserts(Path.of("src/main/resources/scripts/lb"), Path.of("src/main/resources/scripts/inserts"));
-        writeInserts(Path.of("src/main/resources/scripts/db"), Path.of("src/main/resources/scripts/inserts"));
-    */
-        System.out.println(Date.valueOf("2003/12/12"));
+    public static void main(String[] args) {
+        Path transactionsFile = Path.of("src/main/resources/source_code/2023/transactions/trades");
+        Path destination = Path.of("src/main/resources/scripts/2023/2023_trades_insert");
+        List<String> insertStatements = new ArrayList<>();
+        try (Stream<String> lines = Files.lines(transactionsFile)){
+            List<Transaction> transactions = lines.flatMap(line -> parseTransactionsFromHTML(line).stream()).collect(Collectors.toList());
+            transactions.forEach(p -> insertStatements.add(p.buildMySQLInsert()));
+
+            Files.write(destination, insertStatements, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public static void writeDefensivePlayersInserts(Path source, Path destination) {
+        try (Stream<String> lines = Files.lines(source)) {
+            List<DefensivePlayerWeeklyStats> playerList = lines
+                    .flatMap(line -> parseDefensivePlayersFromHTML(line).stream())
+                    .collect(Collectors.toList());
+
+            List<String> insertStatements = new ArrayList<>();
+            playerList.forEach(p -> insertStatements.add(p.buildMySQLInsert()));
+
+            Files.write(destination, insertStatements, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

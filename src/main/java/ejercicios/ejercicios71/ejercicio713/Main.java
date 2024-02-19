@@ -1,68 +1,21 @@
 package ejercicios.ejercicios71.ejercicio713;
 
-import ejercicios.ejercicios71.ejercicio713.entidades.FantasyTransactions;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        Path mhtmlFolder = Path.of("D:\\Users\\Deiv\\Desktop\\Season_2023\\season2023_db");
+        Path sourceCodeStat = Path.of("src/main/resources/source_code/2023/stats/2023_db_stats_source");
+        Path insertFile = Path.of("src/main/resources/scripts/2023/2023_db_stats_insert");
+        MHTMLLineScanner.processMHTMLs(mhtmlFolder, sourceCodeStat);
 
-        List<String> stringList = Files.readAllLines(Path.of("src/main/resources/scripts/source_code/adds"));
+        NFLParser.writeDefensivePlayersInserts(sourceCodeStat, insertFile);
 
-        List<String[]> transactions = new ArrayList<>();
-
-        for (String s : stringList){
-            List<String[]> list = NFLParser.parseTransactionsFromHTML(s);
-            transactions.addAll(list);
+        try {
+            System.out.println(Utils.repeatedLines(insertFile));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nfl");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        entityManager.getTransaction().begin();
-        /*List<FantasyTransactions> fantasyTransactions = new ArrayList<>();
-        fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Isaiah Simmons", "Allen or Nothing", Date.valueOf("2023-09-04")));
-        entityManager.persist(fantasyTransactions.get(0));*/
-
-        List<FantasyTransactions> transactionsList = new ArrayList<>();
-        List<String[]> errors = new ArrayList<>();
-        /*fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Brian Branch", "Villalba Rams", Date.valueOf("2023-09-04")));
-        fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Jalen Tolbert", "Vir Saints", Date.valueOf("2023-09-04")));
-        fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Desmond Ridder", "Santa Eugenia Reapers", Date.valueOf("2023-09-06")));
-        fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Gus Edwards", "Rhapsody Dragons", Date.valueOf("2023-09-06")));
-        fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Tremaine Edmunds", "Rhapsody Dragons", Date.valueOf("2023-09-06")));*/
-        for (String[] strings : transactions){
-            FantasyTransactions ft = null;
-            try{
-                ft = FantasyTransactions.freeAgencyAdd(entityManager, strings[3], strings[5], LocalDateTime.parse(strings[0]));
-                transactionsList.add(ft);
-            }catch (Exception e){
-                errors.add(strings);
-            }
-        }
-
-        //fantasyTransactions.add(FantasyTransactions.freeAgencyAdd(entityManager, "Brian Branch", "Villalba Rams", Date.valueOf("2023-09-04")));
-
-        //transactionsList.forEach(entityManager::persist);
-
-        errors.forEach(array -> System.out.println(array[3]));
-
-
-        entityManager.getTransaction().commit();
-
-
-
-
-        entityManager.close();
-        entityManagerFactory.close();
     }
 }

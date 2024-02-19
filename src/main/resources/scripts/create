@@ -23,7 +23,6 @@ CREATE TABLE nfl_team (
 CREATE TABLE players (
 	id INT,
     player_name VARCHAR(70) NOT NULL,
-    slug VARCHAR(70),
     position ENUM ('QB', 'WR', 'RB', 'TE', 'DST', 'K', 'DL', 'LB', 'DB') NOT NULL,
     nfl_team INT,
     rookie BOOLEAN,
@@ -44,6 +43,15 @@ CREATE TABLE players (
     CONSTRAINT players_fk2 FOREIGN KEY (fantasy_team) REFERENCES fantasy_team (id)
 );
 
+CREATE TABLE ktc_info (
+    ktc_id INT,
+    slug VARCHAR(70),
+    player_id INT,
+
+    CONSTRAINT ktc_info_pk PRIMARY KEY (ktc_id),
+    CONSTRAINT ktc_info_fk1 FOREIGN KEY (player_id) REFERENCES players (id)
+);
+
 
 
 CREATE TABLE standard_value_history (
@@ -52,7 +60,7 @@ CREATE TABLE standard_value_history (
     date DATE NOT NULL,
     value INT NOT NULL,
     CONSTRAINT standard_value_history_pk PRIMARY KEY (id),
-	CONSTRAINT standard_value_history_fk1 FOREIGN KEY (player_id) REFERENCES players(id)
+	CONSTRAINT standard_value_history_fk1 FOREIGN KEY (player_id) REFERENCES players (id)
 
 );
 
@@ -62,9 +70,68 @@ CREATE TABLE superflex_value_history (
     date DATE NOT NULL,
     value INT NOT NULL,
     CONSTRAINT superflex_value_history_pk PRIMARY KEY (id),
-	CONSTRAINT superflex_value_history_fk1 FOREIGN KEY (player_id) REFERENCES players(id)
+	CONSTRAINT superflex_value_history_fk1 FOREIGN KEY (player_id) REFERENCES players (id)
 
 );
+
+CREATE TABLE offensive_player_stats (
+    player_id INT,
+    season INT,
+    week INT,
+    opponent INT,
+    completions INT,
+    incomplete_passes INT,
+    passing_yards INT,
+    passing_touchdowns INT,
+    interceptions INT,
+    times_sacked INT,
+    rush_yards INT,
+    rush_touchdowns INT,
+    receptions INT,
+    receiving_yards INT,
+    receiving_touchdowns INT,
+    return_yards INT,
+    return_touchdowns INT,
+    fumble_return_touchdowns INT,
+    two_point_conversions INT,
+    fumbles_lost INT,
+    fantasy_points DECIMAL(5,2),
+    
+    CONSTRAINT offensive_player_stats_pk PRIMARY KEY (player_id, season, week),
+	CONSTRAINT offensive_player_stats_fk1 FOREIGN KEY (player_id) REFERENCES players(id),
+    CONSTRAINT offensive_player_stats_fk2 FOREIGN KEY (opponent) REFERENCES nfl_team(id)
+);
+
+CREATE TABLE defensive_player_stats (
+    player_id INT,
+    season INT,
+    week INT,
+    opponent INT,
+    total_tackles INT,
+    assisted_tackles INT,
+    sacks DECIMAL(2,1),
+    tackles_for_loss INT,
+    sack_yards DECIMAL(3,1),
+    interceptions INT,
+    forced_fumbles INT,
+    fumbles_recovered INT,
+    interceptions_touchdown INT,
+    fumbles_touchdown INT,
+    blocked_kick_touchdowns INT,
+    safeties INT,
+    blocked_kicks INT,
+    pass_deflections INT,
+    quarterback_hits INT,
+    interception_return_yards INT,
+    fumble_return_yards INT,
+    fantasy_points DECIMAL(5,2),
+
+    CONSTRAINT defensive_player_stats_pk PRIMARY KEY (player_id, season, week),
+    CONSTRAINT defensive_player_stats_fk1 FOREIGN KEY (player_id) REFERENCES players(id),
+    CONSTRAINT defensive_player_stats_fk2 FOREIGN KEY (opponent) REFERENCES nfl_team(id)
+);
+
+
 
 CREATE TABLE fantasy_draft (
 	id INT AUTO_INCREMENT,
@@ -95,14 +162,15 @@ DELIMITER ;
 CREATE TABLE fantasy_transactions (
     id INT AUTO_INCREMENT,
     player_id INT,
-    fantasy_team_id INT,
     transaction_type ENUM('add', 'drop', 'trade') NOT NULL,
-    destination_team_id INT,
+    week INT,
+    source_team INT,
+    destination_team INT,
     transaction_date DATETIME NOT NULL,
     CONSTRAINT fantasy_transactions_pk PRIMARY KEY (id),
     CONSTRAINT fantasy_transactions_fk1 FOREIGN KEY (player_id) REFERENCES players (id),
-    CONSTRAINT fantasy_transactions_fk2 FOREIGN KEY (fantasy_team_id) REFERENCES fantasy_team (id),
-    CONSTRAINT fantasy_transactions_fk3 FOREIGN KEY (destination_team_id) REFERENCES fantasy_team (id)
+    CONSTRAINT fantasy_transactions_fk2 FOREIGN KEY (source_team) REFERENCES fantasy_team (id),
+    CONSTRAINT fantasy_transactions_fk3 FOREIGN KEY (destination_team) REFERENCES fantasy_team (id)
 );
 
 DROP TRIGGER IF EXISTS after_insert_movement;
